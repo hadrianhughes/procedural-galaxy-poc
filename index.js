@@ -32,7 +32,7 @@ const multiplierWeightedToZero = abs => {
   return abs ? Math.abs(mul) : mul;
 };
 
-const generateGalaxy = () => {
+const createGalaxy = () => {
   const center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
   const armCount = getRandom(MAX_ARMS, MIN_ARMS);
   const starCount = getRandom(MAX_STARS, MIN_STARS);
@@ -72,6 +72,7 @@ const generateGalaxy = () => {
 };
 
 const render = points => {
+  canvas.width = canvas.width;
   ctx.fillStyle = 'white';
 
   const pointsLength = points.length;
@@ -81,5 +82,15 @@ const render = points => {
   }
 };
 
-const galaxy = generateGalaxy();
-render(galaxy);
+const generate = () => {
+  const galaxy = createGalaxy();
+  render(galaxy);
+};
+
+generate();
+
+window.addEventListener('keyup', e => {
+  if (e.keyCode === 32) {
+    generate();
+  }
+});
