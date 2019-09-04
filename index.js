@@ -26,6 +26,7 @@ const generateGalaxy = () => {
   const starCount = getRandom(20000, 2000);
   const radius = getRandom(500, 200) / 2;
   const armRadius = getRandom(50, 100);
+  const spinFactor = Math.random();
 
   const armInterval = (Math.PI * 2) / armCount;
 
@@ -34,14 +35,24 @@ const generateGalaxy = () => {
   for (let i = 0;i < armCount;i += 1) {
     let j;
     for (j = 0;j < starsPerArm;j += 1) {
+      // Set location of star in context of arm
       const armMiddle = armRadius / 2;
       const relX = (multiplierWeightedToZero() * armMiddle) + armMiddle;
       const relY = multiplierWeightedToZero(true) * radius;
       const jAngle = armInterval * j;
 
+      // Convert arm relative position to absolute canvas position
       const absX = center[0] + (relY * Math.cos(jAngle)) + (relX - armRadius / 2) * Math.cos(jAngle + Math.PI / 2);
       const absY = center[1] + (relY * Math.sin(jAngle)) + (relX - armRadius / 2) * Math.sin(jAngle + Math.PI / 2);
-      points.push([absX, absY]);
+
+      // Rotate stars
+      const rotationAmount = (relY * spinFactor) * (Math.PI / 180);
+      const xCenterRemoved = absX - center[0];
+      const yCenterRemoved = absY - center[1];
+      const rotatedX = xCenterRemoved * Math.cos(rotationAmount) - yCenterRemoved * Math.sin(rotationAmount);
+      const rotatedY = xCenterRemoved * Math.sin(rotationAmount) + yCenterRemoved * Math.cos(rotationAmount);
+
+      points.push([rotatedX + center[0], rotatedY + center[1]]);
     }
   }
 
