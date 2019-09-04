@@ -5,13 +5,25 @@ const ctx = canvas.getContext('2d');
 
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 600;
+const MIN_ARMS = 2;
+const MAX_ARMS = 6;
+const MIN_STARS = 2000;
+const MAX_STARS = 20000;
+const MIN_RADIUS = 200;
+const MAX_RADIUS = 500;
+const MIN_ARM_RADIUS = 50;
+const MAX_ARM_RADIUS = 100;
+const MIN_SPIN = 0.5;
+const MAX_SPIN = 1.3;
 
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 
 const getRandom = (max, min = 0) => {
   const actualMax = min ? max - min : max;
-  const num = Math.floor(Math.random() * actualMax);
+  const floorFn = Number.isInteger(actualMax) ? Math.floor : y => y;
+
+  const num = floorFn(Math.random() * actualMax);
   return num + min;
 };
 
@@ -22,11 +34,11 @@ const multiplierWeightedToZero = abs => {
 
 const generateGalaxy = () => {
   const center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
-  const armCount = getRandom(6, 2);
-  const starCount = getRandom(20000, 2000);
-  const radius = getRandom(500, 200) / 2;
-  const armRadius = getRandom(50, 100);
-  const spinFactor = Math.random();
+  const armCount = getRandom(MAX_ARMS, MIN_ARMS);
+  const starCount = getRandom(MAX_STARS, MIN_STARS);
+  const radius = getRandom(MAX_RADIUS, MIN_RADIUS) / 2;
+  const armRadius = getRandom(MAX_ARM_RADIUS, MIN_ARM_RADIUS);
+  const spinFactor = getRandom(MAX_SPIN, MIN_SPIN);
 
   const armInterval = (Math.PI * 2) / armCount;
 
@@ -60,7 +72,7 @@ const generateGalaxy = () => {
 };
 
 const render = points => {
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = 'white';
 
   const pointsLength = points.length;
   let i;
