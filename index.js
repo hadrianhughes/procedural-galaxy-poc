@@ -15,6 +15,8 @@ const getRandom = (max, min = 0) => {
   return num + min;
 };
 
+const multiplierWeightedToZero = () => Math.abs(Math.random() - Math.random());
+
 const generateGalaxy = () => {
   const center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
   const armCount = getRandom(6, 2);
@@ -30,7 +32,7 @@ const generateGalaxy = () => {
     let j;
     for (j = 0;j < starsPerArm;j += 1) {
       const relX = getRandom(armRadius);
-      const relY = getRandom(radius);
+      const relY = multiplierWeightedToZero() * radius;
       const jAngle = armInterval * j;
 
       const absX = center[0] + (relY * Math.cos(jAngle)) + (relX - armRadius / 2) * Math.cos(jAngle + Math.PI / 2);
