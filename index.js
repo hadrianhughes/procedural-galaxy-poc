@@ -20,7 +20,7 @@ canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 
 const getRandom = (max, min = 0) => {
-  const actualMax = min ? max - min : max;
+  const actualMax = (min ? max - min : max) + 1;
   const floorFn = Number.isInteger(actualMax) ? Math.floor : y => y;
 
   const num = floorFn(Math.random() * actualMax);
